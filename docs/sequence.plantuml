@@ -1,0 +1,52 @@
+@startuml
+
+actor "newrelic-infra"
+actor "nri-process-discovery"
+
+loop on interval
+
+"newrelic-infra" -> "nri-process-discovery" : exec
+
+activate "nri-process-discovery"
+
+"nri-process-discovery" -> "nri-process-discovery" : RetrievePIDs
+
+loop on PIDs
+"nri-process-discovery" -> "nri-process-discovery" : GuessLang(PID) lang, error
+end loop
+
+"newrelic-infra" <-- "nri-process-discovery" : stdout: []IntegrationRunRequest, stderr: []LogLine
+
+deactivate "nri-process-discovery"
+
+loop IntegrationRunRequests
+
+
+actor "lang-introspector"
+create "lang-introspector"
+
+"newrelic-infra" -> "lang-introspector" : IntegrationRun
+
+actor "lang-process"
+
+activate "lang-introspector"
+"lang-introspector" -> "lang-process" : introspect (PID)
+"lang-introspector" <-- "lang-process" : TBD
+
+deactivate "lang-introspector"
+
+"newrelic-infra" <-- "lang-introspector" : IntegrationPayloadV4, []LogLine
+
+destroy "lang-introspector"
+
+actor NRPlatform
+
+"newrelic-infra" -> NRPlatform : submit
+
+end loop
+
+
+
+deactivate "nri-process-discovery"
+
+@enduml
