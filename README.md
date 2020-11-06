@@ -4,26 +4,21 @@
 
 [Infrastructure agent](https://github.com/newrelic/infrastructure-agent/) integration to discover processes that could be automatically instrumented.
 
-![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/newrelic/nri-process-discovery/main/docs/sequence.plantuml?token=AAJ5S5GO2DM2ROPZQUA63B27VVU5Y)
-
 ## Installation
 
-> [Include a step-by-step procedure on how to get your code installed. Be sure to include any third-party dependencies that need to be installed separately]
-
-## Getting Started
->[Simple steps to start working with the software similar to a "Hello World"]
+Git-clone or `go get`.
 
 ## Usage
->[**Optional** - Include more thorough instructions on how to use the software. This section might not be needed if the Getting Started section is enough. Remove this section if it's not needed.]
 
+![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/newrelic/nri-process-discovery/main/docs/sequence.plantuml?token=AAJ5S5GO2DM2ROPZQUA63B27VVU5Y)
 
 ## Building
 
->[**Optional** - Include this section if users will need to follow specific instructions to build the software from source. Be sure to include any third party build dependencies that need to be installed separately. Remove this section if it's not needed.]
+`make build`
 
 ## Testing
 
->[**Optional** - Include instructions on how to run tests if we include tests with the codebase. Remove this section if it's not needed.]
+Exploratory phase, pending tests once stabilished.
 
 ## Support
 
@@ -32,9 +27,9 @@ New Relic hosts and moderates an online forum where customers can interact with 
 >Add the url for the support thread here
 
 ## Contributing
-We encourage your contributions to improve [project name]! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
+We encourage your contributions to improve *nri-process-discovery*! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
 If you have any questions, or to execute our corporate CLA, required if your contribution is on behalf of a company,  please drop us an email at opensource@newrelic.com.
 
 ## License
-[Project Name] is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
+*nri-process-discovery* is licensed under the [Apache 2.0](http://apache.org/licenses/LICENSE-2.0.txt) License.
 >[If applicable: The [project name] also uses source code from third-party libraries. You can find full details on which libraries are used and the terms under which they are licensed in the third-party notices document.]
