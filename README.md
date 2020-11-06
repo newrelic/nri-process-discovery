@@ -1,8 +1,10 @@
 [![Community Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Project.png)](https://opensource.newrelic.com/oss-category/#community-project)
 
-# [Name of Project] [build badges go here when available]
+# nri-process-discovery
 
->[Brief description - what is the project and value does it provide? How often should users expect to get releases? How is versioning set up? Where does this project want to go?]
+[Infrastructure agent](https://github.com/newrelic/infrastructure-agent/) integration to discover processes that could be automatically instrumented.
+
+![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/newrelic/nri-process-discovery/main/docs/sequence.plantuml?token=AAJ5S5GO2DM2ROPZQUA63B27VVU5Y)
 
 ## Installation
 
