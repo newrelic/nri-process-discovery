@@ -14,7 +14,7 @@ import (
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
 	"github.com/newrelic/infrastructure-agent/pkg/integrations/cmdrequest/protocol"
-	"go.datanerd.us/p/ohai/nri-process-discovery/pkg/lang"
+	"github.com/newrelic/nri-process-discovery/pkg/lang"
 )
 
 const (
