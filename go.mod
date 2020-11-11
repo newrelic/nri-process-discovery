@@ -1,4 +1,4 @@
-module go.datanerd.us/p/ohai/nri-process-discovery
+module github.com/newrelic/nri-process-discovery
 
 go 1.14
 
