@@ -78,22 +78,28 @@ func main() {
 		}
 	}
 
+	if err = event(i, processesDiscovered, runID); err != nil {
+		l.Errorf(err.Error())
+	}
+}
+
+func event(i *integration.Integration, processesDiscovered int, runID string) error {
 	e, err := i.NewEvent(time.Now(), "dynamic_instrumentation", "start_process_discovery")
 	if err != nil {
-		l.Errorf("cannot create event, error: %s", err.Error())
-		return
+		return fmt.Errorf("cannot create event, error: %s", err.Error())
 	}
 
 	err = e.AddAttribute("processes.discovered", processesDiscovered)
 	if err != nil {
-		l.Errorf("cannot add attribute to event, error: %s", err.Error())
+		return fmt.Errorf("cannot add attribute to event, error: %s", err.Error())
 	}
 	err = e.AddAttribute("run.id", runID)
 	if err != nil {
-		l.Errorf("cannot add attribute to event, error: %s", err.Error())
+		return fmt.Errorf("cannot add attribute to event, error: %s", err.Error())
 	}
 
 	i.HostEntity.AddEvent(e)
+	return nil
 }
 
 func newSingleCmdReqPayload(integrationName string, pid int32, runID string) (payload string, err error) {
