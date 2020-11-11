@@ -63,6 +63,7 @@ func main() {
 	langs := lang.ProcessesPerLang(ctx, l)
 
 	runID := newRunID()
+	processesDiscovered := 0
 	for langID, processes := range langs {
 		// a cmd request batch could be created, but this streaming approach gets faster time to
 		// glass and scatters load when spawning new integrations
@@ -73,9 +74,26 @@ func main() {
 				continue
 			}
 			fmt.Println(payload)
-
+			processesDiscovered++
 		}
 	}
+
+	e, err := i.NewEvent(time.Now(), "dynamic_instrumentation", "start_process_discovery")
+	if err != nil {
+		l.Errorf("cannot create event, error: %s", err.Error())
+		return
+	}
+
+	err = e.AddAttribute("processes.discovered", processesDiscovered)
+	if err != nil {
+		l.Errorf("cannot add attribute to event, error: %s", err.Error())
+	}
+	err = e.AddAttribute("run.id", runID)
+	if err != nil {
+		l.Errorf("cannot add attribute to event, error: %s", err.Error())
+	}
+
+	i.HostEntity.AddEvent(e)
 }
 
 func newSingleCmdReqPayload(integrationName string, pid int32, runID string) (payload string, err error) {
