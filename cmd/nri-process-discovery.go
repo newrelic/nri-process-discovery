@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/newrelic/infra-integrations-sdk/integration"
 	"github.com/newrelic/infra-integrations-sdk/log"
@@ -42,7 +43,7 @@ func main() {
 		panic(err)
 	}
 	defer func() {
-		// forward integration logs to agent
+		// flush payloads
 		if err = i.Publish(); err != nil {
 			panic(err)
 		}
@@ -61,11 +62,12 @@ func main() {
 
 	langs := lang.ProcessesPerLang(ctx, l)
 
+	runID := newRunID()
 	for langID, processes := range langs {
 		// a cmd request batch could be created, but this streaming approach gets faster time to
 		// glass and scatters load when spawning new integrations
 		for _, p := range processes {
-			payload, err := newSingleCmdReqPayload(langID.IntegrationName(), p.Pid)
+			payload, err := newSingleCmdReqPayload(langID.IntegrationName(), p.Pid, runID)
 			if err != nil {
 				l.Errorf("cannot create cmd request for PID %d (lang: %s), err: %s", p.Pid, langID, err.Error())
 				continue
@@ -76,7 +78,7 @@ func main() {
 	}
 }
 
-func newSingleCmdReqPayload(integrationName string, pid int32) (payload string, err error) {
+func newSingleCmdReqPayload(integrationName string, pid int32, runID string) (payload string, err error) {
 	crs := protocol.CmdRequestV1{
 		CmdRequestDiscriminator: protocol.CmdRequestDiscriminator{
 			CommandRequestVersion: "1",
@@ -87,6 +89,8 @@ func newSingleCmdReqPayload(integrationName string, pid int32) (payload string, 
 				Args: []string{
 					"-introspect",
 					strconv.Itoa(int(pid)),
+					"-runID",
+					runID,
 				},
 			},
 		},
@@ -99,4 +103,9 @@ func newSingleCmdReqPayload(integrationName string, pid int32) (payload string, 
 
 	payload = strings.Replace(string(serializedCR), "\n", "", -1)
 	return
+}
+
+// generates unique (enough) identifier for the process discovery run triggering the LSI integrations.
+func newRunID() string {
+	return strconv.FormatInt(time.Now().UnixNano(), 10)
 }
