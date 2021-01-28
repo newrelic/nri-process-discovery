@@ -113,7 +113,7 @@ func newSingleCmdReqPayload(integrationName string, pid int32, runID string) (pa
 				Args: []string{
 					"-introspect",
 					strconv.Itoa(int(pid)),
-					"-runID",
+					"-runId",
 					runID,
 				},
 			},
